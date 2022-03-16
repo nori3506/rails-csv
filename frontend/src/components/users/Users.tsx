@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import User from "./User";
 const API_URL = "http://localhost:3000";
 
 export const Users = () => {
+  const [users, setUsers] = useState([]);
   useEffect(() => {
     fetch(`${API_URL}/users.json`, {
       method: "GET",
@@ -10,7 +12,9 @@ export const Users = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        setUsers(data);
+      })
       .catch((error) => {
         console.log("Error:", error);
         return {};
@@ -18,7 +22,13 @@ export const Users = () => {
   }, []);
 
   return (
-    <h1>Users</h1>
-    // <p>{user info}</p>
+    <div className="">
+      <h1>Users List</h1>
+      {users.length > 0 ? (
+        users.map((user) => <User user={user} />)
+      ) : (
+        <>No User Data Exist</>
+      )}
+    </div>
   );
 };
