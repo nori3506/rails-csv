@@ -10,11 +10,14 @@ export const createUsers = (props: any): any => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      if (!data.ok) {
+        throw Error(data.message);
+      }
+      return "ok";
     })
     .catch((error) => {
-      console.log("Error:", error);
-      return {};
+      console.log("Error:", error.message);
+      return error;
     });
 };
 

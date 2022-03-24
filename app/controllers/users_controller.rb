@@ -12,20 +12,19 @@ class UsersController < ApplicationController
     csv = CSV.read(file_path, :headers => true)
     User.transaction do
       csv.each do |row|
-        puts " ******************************************"
-        puts *row
-        puts "*****************************************"
         # puts row.to_hash
         (name, age, gender, hobby) = *row
-        user = User.new(name: name[1], age: age[1].to_i, gender: gender[1].to_i, hobby: hobby[1])
-        puts user
+        puts age[1]
+        user = User.new(name: name[1], age: age[1].to_i, gender: gender[1], hobby: hobby[1])
         # if user.save
         #   render json: user, status: :ok
         # else
-        puts "errrrrrrooooo"
-        render status: 500, json: { status: 500, message: "some information is invalid or missing, please check your csv file" } unless user.save!
+        raise "error" unless user.save
       end
+      render :json => { status: :ok }
     end
+  rescue => e
+    render status: 422, json: { status: 422, message: "some information is invalid or missing, please check your csv file" }
   end
 
   private
