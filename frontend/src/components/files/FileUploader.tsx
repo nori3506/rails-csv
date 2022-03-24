@@ -1,13 +1,19 @@
-import PropTypes from "prop-types";
+import { useState } from "react";
+import { createUsers } from "../../Api";
 
-function FileUploader(props: any) {
+const FileUploader = (props: any): any => {
+  const [attachedFile, setAttachedFile] = useState("");
+  const fileHandler = (e: any): any => {
+    setAttachedFile(e.target.value);
+    createUsers(e.target.files[0]);
+  };
+
   return (
     <>
-      <input type="file" name="file" id="file" />
+      <p>Please attach only 1 vaild CSV file</p>
+      <input type="file" name="file" id="file" onChange={fileHandler} />
     </>
   );
-}
-
-FileUploader.propTypes = {};
+};
 
 export default FileUploader;

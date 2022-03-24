@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import User from "./User";
 const API_URL = "http://localhost:3000";
 
-export const Users = () => {
+const Users = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     fetch(`${API_URL}/users.json`, {
@@ -32,3 +32,5 @@ export const Users = () => {
     </div>
   );
 };
+
+export default Users;
