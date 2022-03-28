@@ -3,7 +3,6 @@ import { UsersState } from "./userSlice";
 const API_URL = "http://localhost:3000";
 
 export const fetchUsers = async () => {
-  console.log("aaaaaaaaaa");
   return fetch(`${API_URL}/users.json`, {
     method: "GET",
     headers: {
@@ -27,6 +26,7 @@ export const createUsers = async (props: any) => {
   })
     .then((response) => response.json())
     .then((data) => {
+      console.log(data);
       if (data.status !== "ok") {
         throw Error(data.message);
       }
