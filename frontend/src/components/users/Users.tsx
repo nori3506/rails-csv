@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../app/hooks";
+import {
+  fetchUsersAsync,
+  Statuses,
+  selectStates,
+  selectUsers,
+} from "../../features/users/userSlice";
 import User from "./User";
+
 const API_URL = "http://localhost:3000";
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
+  const users = useAppSelector(selectUsers);
+  const dispatch = useDispatch();
+  const status = useAppSelector(selectStates);
   useEffect(() => {
-    fetch(`${API_URL}/users.json`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "applicaiton/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setUsers(data);
-      })
-      .catch((error) => {
-        console.log("Error:", error);
-        return {};
-      });
+    dispatch(fetchUsersAsync());
   }, []);
 
   return (
@@ -27,7 +25,7 @@ const Users = () => {
       {users.length > 0 ? (
         users.map((user) => <User user={user} />)
       ) : (
-        <>No User Data Exist</>
+        <>{status}</>
       )}
     </div>
   );
